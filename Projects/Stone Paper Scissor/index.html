@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Game</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <h1>Stone Paper & Scissor</h1>
+
+    <button class="choice-button" onclick="
+    computer = generateComputerChoice();
+    const userChoiceMsg ='You have chosen Stone';
+    const computerChoiceMsg =`Computer's choice ${computer}`;
+    let resultMsg = getResult('Stone',computer);;
+    
+    displayResult(userChoiceMsg, computerChoiceMsg,resultMsg)
+    ">  <img src="rock.jpeg" alt="rock image" class="choice-image"></button>
+
+  
+
+    <button class="choice-button" onclick="
+    computer = generateComputerChoice();
+     userChoiceMsg ='You have chosen Paper';
+    computerChoiceMsg =`Computer's choice ${computer}`;
+
+    resultMsg = getResult('Paper',computer);
+    
+    displayResult(userChoiceMsg, computerChoiceMsg,resultMsg)
+    ">  <img src="paper.jpeg" alt="paper image" class="choice-image"></button>
+
+
+    <button class="choice-button" onclick="
+    computer = generateComputerChoice();
+    userChoiceMsg ='You have chosen Scissor';
+    computerChoiceMsg =`Computer's choice ${computer}`;
+    resultMsg = getResult('Scissor',computer);
+   
+    displayResult(userChoiceMsg, computerChoiceMsg,resultMsg)
+
+   ">  <img src="scissor.jpeg" alt="scissor image" class="choice-image"></button>
+
+
+
+    <h3 id="user-move"></h3>
+    <h3 id="computer-move"></h3>
+    <h3 id="result"></h3>
+    <h3 id="score"></h3>
+
+    <button onclick="localStorage.clear()
+    score={
+     win: 0,
+     lose: 0,
+     draw: 0
+    }
+    displayResult();
+    ">Reset</button>
+ 
+
+
+   <script>
+    let scoreStr = localStorage.getItem('Score');
+    // let score;
+    // if(scoreStr !== undefined){
+    //     score = JSON.parse(scoreStr);
+    // }else{
+    //     score = { win : 0,
+    //               lose : 0,
+    //               draw : 0
+    //             }
+    // }
+    //Another syntax of above code :
+    // if JSON.parse() is falsy then other part shall hold true
+    // use localStorage.cl() to clear browser storage
+    let score = JSON.parse(scoreStr) ||
+                { win : 0,
+                  lose : 0,
+                  draw : 0
+                };
+
+    displayScore = function(){
+        return `Score: Won:${score.win}  Lost:${score.lose}  Draw:${score.draw}`;
+    }
+     let computer;
+     function generateComputerChoice(){
+        let randomNumber = Math.random() *3;
+    
+        if(randomNumber >0 && randomNumber <= 1){
+        return 'Stone';
+        }else if(randomNumber >1 && randomNumber <=2){
+        return 'Paper';
+        }else{
+        return 'Scissor'; 
+        }
+
+     }
+     function getResult(userChoice, computerChoice){
+
+        if(userChoice === computerChoice)
+        {
+            score.draw++;
+            return 'Draw!';
+        }
+        else if(userChoice === 'Paper' && computerChoice ==='Stone')
+        {
+            score.win++;
+            return 'You Win!';
+        }
+        else if(userChoice === 'Paper' && computerChoice === 'Scissor')
+        {
+            score.lose++;
+            return 'You Lose!';
+        }
+        else if(userChoice === 'Stone' && computerChoice === 'Scissor')
+        {
+            score.win++;
+            return 'You Win!';
+        }
+        else if(userChoice === 'Stone' && computerChoice === 'Paper')
+        {
+            score.lose++;
+            return 'You Lose!';
+        }
+        else if(userChoice === 'Scissor' && computerChoice === 'Paper')
+        {
+            score.win++;
+            return 'You Win!';
+        }
+        else 
+        {
+            score.lose++;
+            return 'You Lose!';
+        }
+
+     }
+
+     function displayResult(userChoiceMsg, computerChoiceMsg,resultMsg){
+        localStorage.setItem('Score',JSON.stringify(score));
+
+        document.querySelector('#user-move').innerText= userChoiceMsg || '';
+        document.querySelector('#computer-move').innerText= computerChoiceMsg || '';
+        document.querySelector('#result').innerText= resultMsg || '';
+        document.querySelector('#score').innerText= displayScore();
+
+
+        // alert(`${userChoiceMsg}. ${computerChoiceMsg}
+        
+        // ${resultMsg}
+        
+        // Win : ${score.win}  Lose: ${score.lose}  Draw: ${score.draw}
+        // `);
+     }
+
+   </script>
+    
+</body>
+</html>
